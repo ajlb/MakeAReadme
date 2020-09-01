@@ -1,6 +1,8 @@
-// const inquirer = require('inquirer');
-// const fs = require('fs');
-// const util = require("util");
+const inquirer = require('inquirer');
+const fs = require('fs');
+const util = require("util");
+const generateMarkdown = require("./utils/generateMarkdown");
+
 
 // array of common GitHub licenses
 const licenses = {
@@ -55,66 +57,83 @@ const licenseOptions = Object.keys(licenses);
 const questions = [
     {
         type: "input",
-        name: "Title",
+        name: "title",
         message: "What is the title of your project?"
     },
     {
         type: "input",
-        name: "Link",
+        name: "link",
         message: "What is the link to your running application?"
     },
     {
         type: "editor",
-        name: "Description",
+        name: "description",
         message: "Describe your project:"
     },
     {
         type: "editor",
-        name: "Installation",
+        name: "installation",
         message: "Describe how someone installs this"
     },
     {
         type: "editor",
-        name: "Usage",
+        name: "usage",
         message: "Describe how someone uses this application?"
     },
     {
         type: "list",
-        name: "License",
+        name: "license",
         message: "What type of License do you want to use?",
         choices: licenseOptions,
         default: () => licenseOptions.findIndex((index) => index === 'MIT')
     },
     {
         type: "editor",
-        name: "Contributing",
+        name: "contributing",
         message: "Provide instructions on how to contribute to your project"
     },
     {
         type: "editor",
-        name: "Tests",
+        name: "tests",
         message: "Provide steps to test the application and the expected results"
     },
     {
         type: "input",
-        name: "Username",
+        name: "username",
         message: "What is your GitHub username?"
     },
     {
         type: "input",
-        name: "Email",
+        name: "email",
         message: "What is your email address?"
     } 
 ];
 
 // function to write README file
-function writeToFile(fileName, data) {
+function writeToFile(data) {
 
+    fileName = data.name.toUpperCase().split(' ').join('') + ".md";
+
+    // util.promisify(
+        fs.writeFile(fileName, JSON.stringify(generateMarkdown(data)), function(err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log("Success!");
+        })
+    // );
+    
 }
 
 // function to initialize program
-function init() {
-    
+async function init() {
+    try {
+        console.log("Start asking questions");
+        const data = await inquirer.prompt(questions);
+        console.log(data);
+    } catch (err) {
+        console.log(err);
+    }  
 }
 
 // function call to initialize program
