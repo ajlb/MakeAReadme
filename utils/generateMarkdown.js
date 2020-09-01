@@ -1,6 +1,7 @@
 // function to generate markdown for README
-function generateMarkdown(data) {
+function generateMarkdown(data, url) {
   return `# ${data.title}
+  [![${data.license}](https://img/shields.io/badge/License-${data.license}-blueviolet)](${url})
   Find the deployed project [here](${data.link}).
   
   ## Table of Contents:

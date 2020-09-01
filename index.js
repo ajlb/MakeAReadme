@@ -53,7 +53,7 @@ const licenses = {
 };
 
 const licenseOptions = Object.keys(licenses);
-
+let licenseURL;
 // array of questions for user
 const questions = [
     {
@@ -110,49 +110,14 @@ const questions = [
     } 
 ];
 
-// prompt user for inputs
-function promptUser (){
-    return inquirer.prompt(questions);
-}
-// function to write README file
-// function writeToFile(content) {
-
-//     fileName = "READMEtoo.md";
-
-//     util.promisify(
-//         fs.writeFile(fileName, content, function(err) {
-//             if (err) {
-//                 return console.log(err);
-//             }
-//             console.log("Success!");
-//         })
-//     );
-    
-// }
-
 // function to initialize program
-
-// promptUser()
-//   .then(function(answers) {
-//     const content = generateMarkdown(answers);
-
-//     return writeFileAsync("README2.md", content);
-//   })
-//   .then(function() {
-    
-//   })
-//   .catch(function(err) {
-//     console.log(err);
-//   });
-
 async function init() {
     try {
         // console.log("Start asking questions");
         const data = await inquirer.prompt(questions);
-       // console.log(data);
-        const document = await generateMarkdown(data);
+        const licenseURL = licenses[data.license].url;
+        const document = await generateMarkdown(data, licenseURL);
         writeToFileAsync("README2.md", document);
-        // console.log (document);
         console.log("Successfully wrote to README2.md");
     } catch (err) {
         console.log(err);
