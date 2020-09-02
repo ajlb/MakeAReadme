@@ -3,7 +3,10 @@ const fs = require('fs');
 const util = require("util");
 const generateMarkdown = require("./utils/generateMarkdown");
 const writeToFileAsync = util.promisify(fs.writeFile);
-
+const editorHint = "Replace the content within this temporary file with your answer and close the editor to save the result.\nYou should use markdown for formatting. \nThis editor is determined by the $VISUAL or $EDITOR environment variables. If neither of those are present, notepad (on Windows) or vim (Linux or Mac) is used."
+const noBeginningDashRegex = new RegExp('^-');
+const noTrailingDashRegex = new RegExp('-$');
+const isAnEmailRegex = new RegExp('@');
 
 // array of common GitHub licenses
 const licenses = {
@@ -59,27 +62,35 @@ const questions = [
     {
         type: "input",
         name: "title",
-        message: "What is the title of your project?"
-    },
-    {
-        type: "input",
-        name: "link",
-        message: "What is the link to your running application?"
+        message: "What is the title of your project?",
+        default: () => 'My Project'
     },
     {
         type: "editor",
         name: "description",
-        message: "Describe your project:"
+        message: "Describe your project:",
+        default: () => `Describe your project. \n${editorHint}`,
+        validate: (text) => (
+            (text.length < 5) ? "Your description needs to be a bit longer" : true
+        )
     },
     {
         type: "editor",
         name: "installation",
-        message: "Describe how someone installs this"
+        message: "Describe how someone installs this",
+        default: () => `Describe how someone installs this. \n${editorHint}`,
+        validate: (text) => (
+            (text.length < 5) ? "Your install instructions need to be a bit longer" : true
+        )
     },
     {
         type: "editor",
         name: "usage",
-        message: "Describe how someone uses this application?"
+        message: "Describe how someone uses this application?",
+        default: () => `Describe how someone uses your application. \n${editorHint}`,
+        validate: (text) => (
+            (text.length < 5) ? "Your usage instructions need to be a bit longer" : true
+        )
     },
     {
         type: "list",
@@ -91,22 +102,38 @@ const questions = [
     {
         type: "editor",
         name: "contributing",
-        message: "Provide instructions on how to contribute to your project"
+        message: "Provide instructions on how to contribute to your project",
+        default: () => `Provide guidance on how to contribute to this project. \n${editorHint}`,
+        validate: (text) => (
+            (text.length < 5) ? "Your contribution instructions need to be a bit longer" : true
+        )
     },
     {
         type: "editor",
         name: "tests",
-        message: "Provide steps to test the application and the expected results"
+        message: "Provide steps to test the application and the expected results",
+        default: () => `Describe how someone runs tests on this project. \n${editorHint}`,
+        validate: (text) => (
+            (text.length < 5) ? "Your test instructions need to be a bit longer" : true
+        )
     },
     {
         type: "input",
         name: "username",
-        message: "What is your GitHub username?"
+        message: "What is your GitHub username?",
+        default: () => "n-lambert",
+        validate: (text) => (
+            ((/^-/.test(text))&&(/-$/.test(text))) ? "Hmm that looks like an invalid username, try again" : true
+        )
     },
     {
         type: "input",
         name: "email",
-        message: "What is your email address?"
+        message: "What is your email address?",
+        default: () => "foo@foo.com",
+        validate: (text) => (
+            (/@/.test(text)) ? true : "Hmm that doesn't apear to be an email address, try again."
+        )
     } 
 ];
 
