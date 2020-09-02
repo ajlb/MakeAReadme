@@ -3,8 +3,7 @@ const fs = require('fs');
 const util = require("util");
 const generateMarkdown = require("./utils/generateMarkdown");
 const writeToFileAsync = util.promisify(fs.writeFile);
-const editorHint = "Replace the content within this temporary file with your answer and close the editor to save the result.\nYou should use markdown for formatting. \nThis editor is determined by the $VISUAL or $EDITOR environment variables. If neither of those are present, notepad (on Windows) or vim (Linux or Mac) is used.";
-
+const editorHint = "This editor is determined by the $VISUAL or $EDITOR environment variables. If neither of those are present, notepad (on Windows) or vim (Linux or Mac) is used. \nReplace the content within this temporary file with your answer and close the editor to save the result.\nYou should use markdown for any special formatting you desire. \n";
 // array of common GitHub licenses
 const licenses = {
     MIT : {
@@ -66,7 +65,7 @@ const questions = [
         type: "editor",
         name: "description",
         message: "Describe your project:",
-        default: () => `Describe your project. \n${editorHint}`,
+        default: () => `${editorHint}\nDescribe your project.`,
         validate: (text) => (
             (text.length < 5) ? "Your description needs to be a bit longer" : true
         )
@@ -75,7 +74,7 @@ const questions = [
         type: "editor",
         name: "installation",
         message: "Describe how someone installs this",
-        default: () => `Describe how someone installs this. \n${editorHint}`,
+        default: () => `${editorHint}\nDescribe how someone installs this.`,
         validate: (text) => (
             (text.length < 5) ? "Your install instructions need to be a bit longer" : true
         )
@@ -84,7 +83,7 @@ const questions = [
         type: "editor",
         name: "usage",
         message: "Describe how someone uses this application?",
-        default: () => `Describe how someone uses your application. \n${editorHint}`,
+        default: () => `${editorHint}\nDescribe how someone uses your application.`,
         validate: (text) => (
             (text.length < 5) ? "Your usage instructions need to be a bit longer" : true
         )
@@ -100,7 +99,7 @@ const questions = [
         type: "editor",
         name: "contributing",
         message: "Provide instructions on how to contribute to your project",
-        default: () => `Provide guidance on how to contribute to this project. \n${editorHint}`,
+        default: () => `${editorHint}\nProvide guidance on how to contribute to this project.`,
         validate: (text) => (
             (text.length < 5) ? "Your contribution instructions need to be a bit longer" : true
         )
@@ -109,7 +108,7 @@ const questions = [
         type: "editor",
         name: "tests",
         message: "Provide steps to test the application and the expected results",
-        default: () => `Describe how someone runs tests on this project. \n${editorHint}`,
+        default: () => `${editorHint}\nDescribe how someone runs tests on this project.`,
         validate: (text) => (
             (text.length < 5) ? "Your test instructions need to be a bit longer" : true
         )
@@ -141,8 +140,8 @@ async function init() {
         const data = await inquirer.prompt(questions);
         const licenseURL = licenses[data.license].url;
         const document = await generateMarkdown(data, licenseURL);
-        writeToFileAsync("README2.md", document);
-        console.log("Successfully wrote to README2.md");
+        writeToFileAsync("README.md", document);
+        console.log("Successfully created README.md");
     } catch (err) {
         console.log(err);
     }  
