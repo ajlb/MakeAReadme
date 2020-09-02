@@ -1,6 +1,8 @@
 # Make-A-Readme
 [![GPL3](https://img.shields.io/badge/License-GPL3-blueviolet)](https://api.github.com/licenses/gpl-3.0)
 
+![Demo of project](./assets/images/demo)
+
 ## Table of Contents:
 
 - [Section 1: Description](#Description)
@@ -37,6 +39,6 @@ Anyone is welcome to contribute to this project.
 There are no automated tests for this project. All tests should be run locally within the node terminal of your choice
 
 ## Questions
-* Contact [n-lambert](https://github.com/n-lambert) at foo@foo.com
+* Contact [n-lambert](https://github.com/n-lambert)
 
 
