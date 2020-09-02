@@ -1,5 +1,5 @@
 # Make-A-Readme
-[![GPL3](https://img/shields.io/badge/License-GPL3-blueviolet)](https://api.github.com/licenses/gpl-3.0)
+![Website](https://img.shields.io/badge/License-GPL3-blueviolet)
 
 ## Table of Contents:
 
