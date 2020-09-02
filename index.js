@@ -3,10 +3,7 @@ const fs = require('fs');
 const util = require("util");
 const generateMarkdown = require("./utils/generateMarkdown");
 const writeToFileAsync = util.promisify(fs.writeFile);
-const editorHint = "Replace the content within this temporary file with your answer and close the editor to save the result.\nYou should use markdown for formatting. \nThis editor is determined by the $VISUAL or $EDITOR environment variables. If neither of those are present, notepad (on Windows) or vim (Linux or Mac) is used."
-const noBeginningDashRegex = new RegExp('^-');
-const noTrailingDashRegex = new RegExp('-$');
-const isAnEmailRegex = new RegExp('@');
+const editorHint = "Replace the content within this temporary file with your answer and close the editor to save the result.\nYou should use markdown for formatting. \nThis editor is determined by the $VISUAL or $EDITOR environment variables. If neither of those are present, notepad (on Windows) or vim (Linux or Mac) is used.";
 
 // array of common GitHub licenses
 const licenses = {
